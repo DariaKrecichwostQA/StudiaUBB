@@ -9,7 +9,7 @@
 \geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
 
 \title{Signal Synthesis Using Inverse Discrete Fourier Transform (IDFT)}
-\author{Your Name}
+\author{Daria Kręcichwost}
 \date{\today}
 
 \begin{document}
@@ -31,10 +31,10 @@
     \vfill
     
     \Large
-    Lab No. 1 \\
+    Lab No. 1 and 2\\
     Date: \today \\
-    Topic: "?????????????" \\
-    Variant: ??
+    Topic: "Figures demonstrating Furier transform " \\
+    Variant: 8
     
     \vspace{1cm}
     
@@ -63,7 +63,7 @@ The task involves synthesizing discrete-time signals from their DFT coefficients
 The input data consists of multiple sequences of coefficients \( \mathbf{X}_\mu \), for which we need to calculate the corresponding time-domain signals using the IDFT. For example, one of the sequences for variant 8 is:
 
 \[
-\mathbf{x}_\mu = [6, 5, 4, 3, 4, 5, 0, 0, 0, 0]
+\mathbf{x}_\mu = [6, 2, 4, 4, 4,5,0, 0, 0, 0]
 \]
 
 For each task, the sequence will vary, and we need to apply the IDFT transformation to reconstruct the time-domain signal.
@@ -78,30 +78,43 @@ The following Python code was used to synthesize signals from the input DFT coef
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Function to generate the IDFT matrix
 def idft_matrix(N):
+    # Tworzymy macierz W_N, gdzie każda pozycja to exp(-j 2 pi k n / N)
     W_N = np.exp(-2j * np.pi * np.outer(np.arange(N), np.arange(N)) / N)
     return W_N
 
-# Function to synthesize the signal using IDFT
 def synthesize_signal(X_mu):
     N = len(X_mu)
-    W_N = idft_matrix(N)  # Compute the IDFT matrix
-    x_mu = np.dot(W_N.conj().T, X_mu) / N  # Apply the IDFT formula
+    W_N = idft_matrix(N)  # Obliczamy macierz DFT
+    x_mu = np.dot(W_N.conj().T, X_mu) / N  # Zastosowanie wzoru IDFT
     return x_mu
 
-# Example for a specific sequence
-X_mu = np.array([6, 5, 4, 3, 4, 5, 0, 0, 0, 0], dtype=complex)
+X_mu = np.array([6, 2, 4, 4, 4, 5, 0, 0, 0, 0], dtype=complex)
+
+print(f"Synthesizing signal for X_mu = {X_mu}")
+
 x_mu_synthesized = synthesize_signal(X_mu)
 
-# Plotting the real part of the synthesized signal
 plt.figure(figsize=(10, 6))
 plt.stem(np.real(x_mu_synthesized), use_line_collection=True)
-plt.title('Synthesized Signal (Real Part)')
-plt.xlabel('Sample Index')
-plt.ylabel('Amplitude')
+plt.title('Zsyntetyzowany sygnał (Część rzeczywista)')
+plt.xlabel('Indeks próbki')
+plt.ylabel('Amplituda')
 plt.grid(True)
 plt.show()
+
+print("Plot generated successfully: Real Part of Synthesized Signal")
+
+plt.figure(figsize=(10, 6))
+plt.stem(np.imag(x_mu_synthesized), use_line_collection=True)
+plt.title('Zsyntetyzowany sygnał (Część urojona)')
+plt.xlabel('Indeks próbki')
+plt.ylabel('Amplituda')
+plt.grid(True)
+plt.show()
+
+print("Plot generated successfully: Imaginary Part of Synthesized Signal")
+
 \end{verbatim}
 
 \subsection{b) Screenshots}
@@ -112,33 +125,41 @@ Include the following screenshots in your report:
     \item Screenshots of the output plots, including the real and imaginary parts of the synthesized signal for each task.
 \end{itemize}
 
-\textbf{Example screenshot description:} "The plot shows the real part of the synthesized signal for the input sequence \( [6, 5, 4, 3, 4, 5, 0, 0, 0, 0] \). The amplitude values are plotted against the sample index."
+\textbf{Example screenshot description:} "The plot shows the real part of the synthesized signal for the input sequence \( [6, 2, 4, 4, 4,5,0, 0, 0, 0] \). The amplitude values are plotted against the sample index."
 
-\textbf{Link to Remote Repository:} \url{https://github.com/username/project-idft}
+\textbf{Link to Remote Repository:} \url{https://github.com/DariaKrecichwostQA/StudiaUBB/blob/main/Digital%20Signal%20Processing/Zad1/Zad1DPS.ipynb}
 
 \section{Outcomes}
 
 The outcomes of this task include:
 \begin{itemize}
-    \item Signal Synthesis: For each input sequence, the corresponding time-domain signal was synthesized using the IDFT matrix.
-    \item Visualization: The real and imaginary parts of the synthesized signals were plotted to analyze their behavior.
-    \item Console Results: Console output showing successful completion of the signal synthesis.
+    \item \textbf{Signal Synthesis}: For each input sequence, the corresponding time-domain signal was synthesized using the IDFT matrix.
+    
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.8\textwidth]{1.png}
+        \caption{Signal synthesized from input sequence.}
+    \end{figure}
+    
+    \item \textbf{Visualization}: The real and imaginary parts of the synthesized signals were plotted to analyze their behavior.
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.8\textwidth]{2.png}
+        \caption{The real and imaginary parts of the synthesized signals}
+    \end{figure}
+    \item \textbf{Console Results}: Console output showing successful completion of the signal synthesis.
 \end{itemize}
+
 
 Example console output:
 \begin{verbatim}
-Synthesizing signal for X_mu = [6, 5, 4, 3, 4, 5, 0, 0, 0, 0]
+Synthesizing signal for X_mu = [6.+0.j 2.+0.j 4.+0.j 4.+0.j 4.+0.j 5.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j]
+
 Plot generated successfully: Real Part of Synthesized Signal
 \end{verbatim}
 
 \section{Conclusions}
 
 For the reasons given, we conclude that the IDFT matrix formulation is a valid approach for reconstructing discrete-time signals from their DFT coefficients. The synthesized signals visually match the expected form, and the results were consistent across different input sequences. Furthermore, the visualization of both real and imaginary components allows us to fully understand the properties of the reconstructed signals.
-
-\textbf{Additional Notes:}
-\begin{itemize}
-    \item \textbf{Limitations}: For certain sequences with a large number of zero coefficients, the synthesized signal may appear as a simple constant or a very low-frequency signal.
-    \item \textbf{Future Work}: Future enhancements could involve further analysis of the frequency components using the DFT and the impact of sequence length \( N \) on the reconstruction accuracy.
-\end{itemize}
 
 \end{document}
