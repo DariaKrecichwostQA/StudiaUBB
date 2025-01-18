@@ -79,14 +79,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def idft_matrix(N):
-    # Tworzymy macierz W_N, gdzie każda pozycja to exp(-j 2 pi k n / N)
     W_N = np.exp(-2j * np.pi * np.outer(np.arange(N), np.arange(N)) / N)
     return W_N
 
 def synthesize_signal(X_mu):
     N = len(X_mu)
-    W_N = idft_matrix(N)  # Obliczamy macierz DFT
-    x_mu = np.dot(W_N.conj().T, X_mu) / N  # Zastosowanie wzoru IDFT
+    W_N = idft_matrix(N)
+    x_mu = np.dot(W_N.conj().T, X_mu) / N
     return x_mu
 
 X_mu = np.array([6, 2, 4, 4, 4, 5, 0, 0, 0, 0], dtype=complex)
@@ -96,7 +95,7 @@ print(f"Synthesizing signal for X_mu = {X_mu}")
 x_mu_synthesized = synthesize_signal(X_mu)
 
 plt.figure(figsize=(10, 6))
-plt.stem(np.real(x_mu_synthesized), use_line_collection=True)
+plt.stem(np.real(x_mu_synthesized), linefmt='b-', markerfmt='bo', basefmt='r-')
 plt.title('Zsyntetyzowany sygnał (Część rzeczywista)')
 plt.xlabel('Indeks próbki')
 plt.ylabel('Amplituda')
@@ -106,7 +105,7 @@ plt.show()
 print("Plot generated successfully: Real Part of Synthesized Signal")
 
 plt.figure(figsize=(10, 6))
-plt.stem(np.imag(x_mu_synthesized), use_line_collection=True)
+plt.stem(np.imag(x_mu_synthesized), linefmt='g-', markerfmt='go', basefmt='r-')
 plt.title('Zsyntetyzowany sygnał (Część urojona)')
 plt.xlabel('Indeks próbki')
 plt.ylabel('Amplituda')
@@ -114,7 +113,6 @@ plt.grid(True)
 plt.show()
 
 print("Plot generated successfully: Imaginary Part of Synthesized Signal")
-
 \end{verbatim}
 
 \subsection{b) Screenshots}
