@@ -4,8 +4,10 @@
 \usepackage{amsfonts}
 \usepackage{hyperref}
 \usepackage{geometry}
+\usepackage{listings} 
+\usepackage{placeins}
+\usepackage[T1]{fontenc}
 
-% Set page margins for better formatting
 \geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
 
 \title{Signal Synthesis Using Inverse Discrete Fourier Transform (IDFT)}
@@ -14,7 +16,6 @@
 
 \begin{document}
 
-% Cover page content
 \begin{titlepage}
     \centering
     \vspace*{2cm}
@@ -25,7 +26,7 @@
     \vspace{1cm}
     
     \Large
-    Course: Analog and Digital Electronic Circuits \\
+    Course: Digital Signals Processing \\
     Teacher: Prof. Dr. Hab. Vasyl Martsenyuk
     
     \vfill
@@ -33,7 +34,7 @@
     \Large
     Lab No. 1 and 2\\
     Date: \today \\
-    Topic: "Figures demonstrating Furier transform " \\
+    Topic: "Figures Demonstrating Fourier Transform" \\
     Variant: 8
     
     \vspace{1cm}
@@ -41,40 +42,29 @@
     \large
     Name: Daria Kręcichwost \\
     Computer Science (Second Degree) \\
-    Full-time studies, Semester 1 \\
+    Part-time studies, Semester 1 \\
     Group: B
 \end{titlepage}
 
-% Start the main content of the report
 \newpage
 
 \maketitle
 
-\begin{abstract}
-In this report, we discuss the process of synthesizing discrete-time signals from their Discrete Fourier Transform (DFT) coefficients using the Inverse Discrete Fourier Transform (IDFT). The IDFT is computed in matrix notation for different sequences, and the resulting time-domain signals are visualized.
-\end{abstract}
 
 \section{Problem Statement}
-
-The task involves synthesizing discrete-time signals from their DFT coefficients using the Inverse Discrete Fourier Transform (IDFT) in matrix notation. Each signal is represented as a sequence of coefficients \( \mathbf{X}_\mu \), which is transformed into the corresponding time-domain signal using the IDFT formula. The goal is to compute the IDFT for different sequences of varying lengths \( N \) and visualize the results.
+The task involves synthesizing discrete-time signals from their DFT coefficients using the Inverse Discrete Fourier Transform (IDFT) in matrix notation. The goal is to reconstruct time-domain signals from frequency-domain sequences \( \mathbf{X}_\mu \) and visualize the results, including real and imaginary parts.
 
 \section{Input Data}
-
-The input data consists of multiple sequences of coefficients \( \mathbf{X}_\mu \), for which we need to calculate the corresponding time-domain signals using the IDFT. For example, one of the sequences for variant 8 is:
-
+The input data for this task is a sequence of DFT coefficients \( \mathbf{X}_\mu \), defined as follows:
 \[
-\mathbf{x}_\mu = [6, 2, 4, 4, 4,5,0, 0, 0, 0]
+\mathbf{X}_\mu = [6, 2, 4, 4, 4, 5, 0, 0, 0, 0]
 \]
+The corresponding time-domain signal is computed using the IDFT. The task also involves plotting the synthesized signal for analysis.
 
-For each task, the sequence will vary, and we need to apply the IDFT transformation to reconstruct the time-domain signal.
+\section{Python Code}
+The following Python code was used to synthesize signals from the input DFT coefficients using the IDFT:
 
-\section{Commands Used (or GUI)}
-
-\subsection{a) Source Code}
-
-The following Python code was used to synthesize signals from the input DFT coefficients using IDFT:
-
-\begin{verbatim}
+\begin{lstlisting}[language=Python, breaklines=true]
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -90,74 +80,87 @@ def synthesize_signal(X_mu):
 
 X_mu = np.array([6, 2, 4, 4, 4, 5, 0, 0, 0, 0], dtype=complex)
 
-print(f"Synthesizing signal for X_mu = {X_mu}")
-
 x_mu_synthesized = synthesize_signal(X_mu)
 
 plt.figure(figsize=(10, 6))
 plt.stem(np.real(x_mu_synthesized), linefmt='b-', markerfmt='bo', basefmt='r-')
-plt.title('Zsyntetyzowany sygnał (Część rzeczywista)')
-plt.xlabel('Indeks próbki')
-plt.ylabel('Amplituda')
+plt.title('Synthesized Signal (Real Part)')
+plt.xlabel('Sample Index')
+plt.ylabel('Amplitude')
 plt.grid(True)
 plt.show()
-
-print("Plot generated successfully: Real Part of Synthesized Signal")
 
 plt.figure(figsize=(10, 6))
 plt.stem(np.imag(x_mu_synthesized), linefmt='g-', markerfmt='go', basefmt='r-')
-plt.title('Zsyntetyzowany sygnał (Część urojona)')
-plt.xlabel('Indeks próbki')
-plt.ylabel('Amplituda')
+plt.title('Synthesized Signal (Imaginary Part)')
+plt.xlabel('Sample Index')
+plt.ylabel('Amplitude')
 plt.grid(True)
 plt.show()
 
-print("Plot generated successfully: Imaginary Part of Synthesized Signal")
-\end{verbatim}
+plt.figure(figsize=(12, 6))
+plt.plot(np.real(x_mu_synthesized), label='Real Part', marker='o', linestyle='-', color='b')
+plt.plot(np.imag(x_mu_synthesized), label='Imaginary Part', marker='x', linestyle='--', color='g')
+plt.title('Signal Synthesis: Real and Imaginary Parts Combined')
+plt.xlabel('Sample Index')
+plt.ylabel('Amplitude')
+plt.axhline(0, color='red', linewidth=0.8, linestyle='--', label='Zero Line')
+plt.legend()
+plt.grid(True)
+plt.show()
 
-\subsection{b) Screenshots}
 
-Include the following screenshots in your report:
-\begin{itemize}
-    \item Screenshot of the code execution showing the IDFT process and the generated plots.
-    \item Screenshots of the output plots, including the real and imaginary parts of the synthesized signal for each task.
-\end{itemize}
-
-\textbf{Example screenshot description:} "The plot shows the real part of the synthesized signal for the input sequence \( [6, 2, 4, 4, 4,5,0, 0, 0, 0] \). The amplitude values are plotted against the sample index."
-
-\textbf{Link to Remote Repository:} \url{https://github.com/DariaKrecichwostQA/StudiaUBB/blob/main/Digital%20Signal%20Processing/Zad1/Zad1DPS.ipynb}
-
+\end{lstlisting}
+\newpage
 \section{Outcomes}
+The synthesized signals were analyzed and visualized. The results include the real part, the imaginary part, and the combined representation of both.
 
-The outcomes of this task include:
-\begin{itemize}
-    \item \textbf{Signal Synthesis}: For each input sequence, the corresponding time-domain signal was synthesized using the IDFT matrix.
-    
-    \begin{figure}[h!]
-        \centering
-        \includegraphics[width=0.8\textwidth]{1.png}
-        \caption{Signal synthesized from input sequence.}
-    \end{figure}
-    
-    \item \textbf{Visualization}: The real and imaginary parts of the synthesized signals were plotted to analyze their behavior.
-    \begin{figure}[h!]
-        \centering
-        \includegraphics[width=0.8\textwidth]{2.png}
-        \caption{The real and imaginary parts of the synthesized signals}
-    \end{figure}
-    \item \textbf{Console Results}: Console output showing successful completion of the signal synthesis.
-\end{itemize}
+\subsection{Real Part of the Signal}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{1.png}
+    \caption{Synthesized Signal (Real Part)}
+    \label{fig:real_part}
+
+\end{figure}
+\newpage
+\vfill
+\subsection{Imaginary Part of the Signal}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{2.png}
+    \caption{Synthesized Signal (Imaginary Part)}
+    \label{fig:imaginary_part}
+\end{figure}
+
+\FloatBarrier
+\vfill
+\newpage
+\subsection{Combined Signal (Real and Imaginary)}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{3.png}
+    \caption{Signal Synthesis: Real and Imaginary Parts Combined}
+    \label{fig:combined_signal}
+\end{figure}
+
+\FloatBarrier
+\vfill
 
 
-Example console output:
-\begin{verbatim}
-Synthesizing signal for X_mu = [6.+0.j 2.+0.j 4.+0.j 4.+0.j 4.+0.j 5.+0.j 0.+0.j 0.+0.j 0.+0.j 0.+0.j]
-
-Plot generated successfully: Real Part of Synthesized Signal
-\end{verbatim}
+\newpage
 
 \section{Conclusions}
 
-For the reasons given, we conclude that the IDFT matrix formulation is a valid approach for reconstructing discrete-time signals from their DFT coefficients. The synthesized signals visually match the expected form, and the results were consistent across different input sequences. Furthermore, the visualization of both real and imaginary components allows us to fully understand the properties of the reconstructed signals.
+\begin{itemize}
+    \item The comparison between the real and imaginary parts of the signal shows how these two components are interconnected in the signal synthesis process.
+    \item The real part of the signal is more intuitive and easier to understand, as it reflects the signal's amplitude, while the imaginary part provides information about its phase.
+    \item Both parts are essential to obtain a complete and accurate time-domain reconstruction of the signal.
+    \item The zero line plays a crucial role in visualizing the signal's behavior, providing a reference point for identifying the positive and negative oscillations.
+    \item The real and imaginary components fluctuate around this line, and it helps to better interpret the amplitude and phase changes, ensuring a more accurate understanding of the signal's characteristics.
+\end{itemize}
+
+
 
 \end{document}
